@@ -1,81 +1,98 @@
-var clicks = 0;
-var x = [];
-var o = [];
+
+var xMoves = [];
+var oMoves = [];
 
 $(document).ready(function() {
-  // var $a1 = $("#a1");
-  // var $a2 = $("#a2");
-  // var $a3 = $("#a3");
-  // var $b1 = $("#b1");
-  // var $b2 = $("#b2");
-  // var $b3 = $("#b3");
-  // var $c1 = $("#c1");
-  // var $c2 = $("#c2");
-  // var $c3 = $("#c3");
+  var isPlayerX = true;
 
+  $("td").on("click", function() {
 
+    var marked = $(this);
 
-  $("td").on("click", function () {
-    alert(this.id);
-    if (clicks % 2 === 0) {
-      $(this).html("x");
-      x.push(this.id);
-      result(x);
-
+    if (marked.hasClass("x") || marked.hasClass("o")) {
+      alert("Please choose another move!")
     } else {
-      $(this).html("o");
-      o.push(this.id);
-      result(o);
-    }
-    clicks++;
-  });
-
-  var result = function (player) {
-    var row = [];
-    var column = [];
-
-    if (player.length >= 3) {
-      if (player.includes("22")) {
-        var index = player.indexOf("22");
-        player.splice(index, 1);
-
-        for (var i = 0; i < player.length; i++) {
-          for (var j = 0; j < player.length; j++) {
-            if (parseInt(x[i]) + parseInt(x[j]) === 44) {
-              console.log("player wins!");
-            }
-          }
+      if (isPlayerX) {
+        marked.addClass("x");
+        xMoves.push(this.id);
+        console.log(xMoves);
+        debugger;
+        if (checkDiag(diagArr(3, 1), xMoves) || checkDiag(diagArr(3, 0), xMoves) || checkOther(xMoves)) {
+          alert("X wins!")
+        } else {
+          isPlayerX = !isPlayerX;
         }
       } else {
-
-        for (var i = 0; i < player.length; i++) {
-          row.push(parseInt(player[i][0]))
-          column.push(parseInt(player[i][1]))
-          row.sort();
-          column.sort();
-          console.log(row);
-          console.log(column);
+        marked.addClass("o");
+        oMoves.push(this.id);
+        if (checkDiag(diagArr(3, 1), oMoves) || checkDiag(diagArr(3, 0), oMoves) || checkOther(oMoves)) {
+          alert("O wins!")
+        } else {
+          isPlayerX = !isPlayerX;
         }
-
-        for (var i = 0; i < row.length; i++) {
-          if (row[i] === row[i+1] && row[i] === row[i+2]) {
-            console.log("player wins!");
-          }
-        }
-
-        for (var i = 0; i < column.length; i++) {
-          if (column[i] === column[i+1] && column[i] === column[i+2]) {
-            console.log("player wins!");
-          }
-        }
-
       }
-
-
     }
-  }
+  });
 
+  var diagArr = function(size, booleanNum) {
+      var row = [];
+      var col = [];
+      var diagonal = [];
 
+      for (var i = 1; i <= size; i++) {
+        i = String(i);
+        row.push(i);
+
+        if (booleanNum) {
+            col.unshift(i);
+          } else {
+            col.push(i);
+          }
+        }
+
+      for (var i = 0; i < row.length; i++) {
+        diagonal.push(row[i] + col[i]);
+      }
+      return diagonal;
+    };
+
+  var checkDiag = function(diagonal, playerMoves) {
+
+      for (var i = 0; i < diagonal.length; i++) {
+        if (playerMoves.indexOf(diagonal[i]) === -1) {
+          return false;
+        }
+      }
+      return true;
+  };
+
+  var checkOther = function(playerMoves) {
+    var row = [];
+    var col = [];
+
+    for (var i = 0; i < playerMoves.length; i++) {
+      row.push(Number(playerMoves[i][0]));
+      col.push(Number(playerMoves[i][1]));
+    }
+
+    row.sort();
+    col.sort();
+
+    for (var i = 0; i < row.length; i++) {
+      if (row[i] === row[i+1] && row[i] === row[i+2]) {
+        return true;
+      }
+      return false;
+    }
+
+    for (var i = 0; i < col.length; i++) {
+      if (col[i] === col[i+1] && col[i] === col[i+2]) {
+        return true;
+      }
+      return false;
+    }
+
+  };
 
 
 

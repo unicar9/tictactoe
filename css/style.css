@@ -1,18 +1,43 @@
 
-body {
-  margin: 0 auto;
+table {
+  width: 40%;
+  border-collapse: collapse;
+  margin: 100px auto;
 }
-
 
 td {
-border: 1px solid black;
-height: 100px;
-width: 100px;
+  /*width: 33.333%;*/
+  border: 6px solid #222;
 }
 
-table {
-  position: relative;
-  top: 200px;
-  margin: auto;
-  border-collapse: collapse;
+td:after {
+  content: '';
+  display: block;
+  margin-top: 100%;
+}
+
+td:first-of-type {
+  border-left-color: transparent;
+  border-top-color: transparent;
+}
+
+td:nth-of-type(2) {
+  border-top-color: transparent;
+}
+
+td:nth-of-type(3) {
+  border-right-color: transparent;
+  border-top-color: transparent;
+}
+
+tr:nth-of-type(3) td {
+  border-bottom-color: transparent;
+}
+
+.x {
+  background-color: cyan;
+}
+
+.o {
+  background-color: magenta;
 }
