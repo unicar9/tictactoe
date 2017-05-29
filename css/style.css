@@ -1,3 +1,9 @@
+
+body {
+  margin: 0 auto;
+}
+
+
 td {
 border: 1px solid black;
 height: 100px;
@@ -5,6 +11,8 @@ width: 100px;
 }
 
 table {
+  position: relative;
+  top: 200px;
   margin: auto;
   border-collapse: collapse;
 }
