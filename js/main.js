@@ -24,7 +24,7 @@ $(document).ready(function() {
     } else {
       if (player === "x") {
         $("#message").text("It's X's turn!") // change the prompt message
-        marked.addClass("x"); // place the token "X"
+        marked.addClass("x").addClass("animated bounceIn"); // place the token "X"
         xMoves.push(this.id); // store the sqaure id to an array
 
         if (checkDiag(diagArr(3, 1), xMoves) || checkDiag(diagArr(3, 0), xMoves) || checkOther(xMoves)) {
@@ -45,7 +45,7 @@ $(document).ready(function() {
 
         }
       } else {
-        marked.addClass("o");
+        marked.addClass("o").addClass("animated bounceIn");
         oMoves.push(this.id);
         if (checkDiag(diagArr(3, 1), oMoves) || checkDiag(diagArr(3, 0), oMoves) || checkOther(oMoves)) {
           $("#message").text("Player O wins!")
@@ -55,8 +55,6 @@ $(document).ready(function() {
           $("#message").text("It's X's turn!")
         }
       }
-
-
     }
 
   });
