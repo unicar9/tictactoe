@@ -3,32 +3,36 @@ var xMoves = [];
 var oMoves = [];
 
 $(document).ready(function() {
-  var isPlayerX = true;
+  var player = "x";
 
   $("td").on("click", function() {
 
     var marked = $(this);
 
     if (marked.hasClass("x") || marked.hasClass("o")) {
-      alert("Please choose another move!")
+      alert("Please choose another square!")
     } else {
-      if (isPlayerX) {
+      if (player === "x") {
+        $("#message").text("It's X's turn!")
         marked.addClass("x");
         xMoves.push(this.id);
         console.log(xMoves);
-        debugger;
         if (checkDiag(diagArr(3, 1), xMoves) || checkDiag(diagArr(3, 0), xMoves) || checkOther(xMoves)) {
           alert("X wins!")
         } else {
-          isPlayerX = !isPlayerX;
+          player = "o";
+          $("#message").text("It's O's turn!")
+
         }
       } else {
+
         marked.addClass("o");
         oMoves.push(this.id);
         if (checkDiag(diagArr(3, 1), oMoves) || checkDiag(diagArr(3, 0), oMoves) || checkOther(oMoves)) {
           alert("O wins!")
         } else {
-          isPlayerX = !isPlayerX;
+          player = "x";
+          $("#message").text("It's X's turn!")
         }
       }
     }
@@ -82,18 +86,15 @@ $(document).ready(function() {
       if (row[i] === row[i+1] && row[i] === row[i+2]) {
         return true;
       }
-      return false;
     }
 
     for (var i = 0; i < col.length; i++) {
       if (col[i] === col[i+1] && col[i] === col[i+2]) {
         return true;
       }
-      return false;
     }
 
+    return false;
   };
-
-
 
 });
