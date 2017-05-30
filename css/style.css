@@ -2,30 +2,31 @@
 
 body {
   background-color: #81CFE0;
+  font-family: 'Raleway', sans-serif;
+  text-align: center;
 }
 
 h1 {
-  font-family: 'Raleway', sans-serif;
-  text-align: center;
   font-size: 50px;
   text-transform: uppercase;
   color: #336E7B;
+  padding: 0;
   margin: 0 auto;
+  position: relative;
+  top: 50px;
 }
 
 table {
   border-collapse: collapse;
-  margin: 50px auto;
+  margin: 0 auto;
   cursor: pointer;
+  clear: both;
 }
 
 td {
   width: 150px;
   height: 150px;
-  text-align: center;
   font-size: 120px;
-  font-weight: 500;
-  font-family: 'Raleway', sans-serif;
 }
 
 .bottom {
@@ -47,9 +48,35 @@ td {
 }
 
 #message {
-  text-align: center;
-  font-family: 'Raleway', sans-serif;
   font-size: 20px;
   color: #FFF;
-  margin: 0;
+  margin-top: 10px;
+}
+
+.button {
+  background-color: #336E7B;
+  border: none;
+  color: #FFF;
+  padding: 13px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 3px solid #336E7B;
+}
+
+.button:hover {
+  color: #336E7B;
+  background-color: transparent;
+  border: 3px solid #336E7B;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+#aside {
+  float: left;
+  position: relative;
+  top: 250px;
+  left: 80px;
+  text-align: left;
 }

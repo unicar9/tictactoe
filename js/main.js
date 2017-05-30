@@ -1,43 +1,69 @@
 
 var xMoves = [];
-var oMoves = [];
+var oMoves = []; // store the square id to an array
+var isOver = false; // see whether game is ended
 
 $(document).ready(function() {
-  var player = "x";
+  var player = "x"; // switch player
+
+  $("button").on("click", function() {
+      location.reload();
+  }); // START button click event, reload page
 
   $("td").on("click", function() {
 
-    var marked = $(this);
+    if (isOver) {
+      return;
+    } // if game is ended, function ends
+
+    var marked = $(this); // get the square that player selects
 
     if (marked.hasClass("x") || marked.hasClass("o")) {
+      // if the square has already been selected then alert else markes the square
       alert("Please choose another square!")
     } else {
       if (player === "x") {
-        $("#message").text("It's X's turn!")
-        marked.addClass("x");
-        xMoves.push(this.id);
-        console.log(xMoves);
+        $("#message").text("It's X's turn!") // change the prompt message
+        marked.addClass("x"); // place the token "X"
+        xMoves.push(this.id); // store the sqaure id to an array
+
         if (checkDiag(diagArr(3, 1), xMoves) || checkDiag(diagArr(3, 0), xMoves) || checkOther(xMoves)) {
-          alert("X wins!")
+          $("#message").text("Player X wins!") // if either one of 3 winning conditions meet,
+          isOver = true; // game is ended
+
         } else {
+
+          if (xMoves.length === 5) {
+            $("#message").text("It's a draw!")
+            isOver = true;
+            return;
+          } // x reaches the last step (step 5) and not winning, it's a draw
+
           player = "o";
           $("#message").text("It's O's turn!")
+          //normally switch to player O and change prompt message
 
         }
       } else {
-
         marked.addClass("o");
         oMoves.push(this.id);
         if (checkDiag(diagArr(3, 1), oMoves) || checkDiag(diagArr(3, 0), oMoves) || checkOther(oMoves)) {
-          alert("O wins!")
+          $("#message").text("Player O wins!")
+          isOver = true;
         } else {
           player = "x";
           $("#message").text("It's X's turn!")
         }
       }
+
+
     }
+
   });
 
+  // get 2 arrays with all the square ids on the diagonal directions
+  // eg. ["11", "22", "33", "44"] and ["14", "23", "32", "41"]
+  // pattern here is seperate first number and second number, reverse the array with second numbers
   var diagArr = function(size, booleanNum) {
       var row = [];
       var col = [];
@@ -60,6 +86,7 @@ $(document).ready(function() {
       return diagonal;
     };
 
+  // to check whether all the square ids are included in the player's selected squares.
   var checkDiag = function(diagonal, playerMoves) {
 
       for (var i = 0; i < diagonal.length; i++) {
@@ -70,7 +97,10 @@ $(document).ready(function() {
       return true;
   };
 
-  var checkOther = function(playerMoves) {
+  // seperate row ids and column ids, and check if the player's selected squares have 3
+  // same row ids or column ids.
+  // to check whether it's winning horizontally or vertically
+  var checkOther = function(playerMoves) { //check horizontally and vertically
     var row = [];
     var col = [];
 
@@ -93,7 +123,6 @@ $(document).ready(function() {
         return true;
       }
     }
-
     return false;
   };
 
