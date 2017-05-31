@@ -2,6 +2,7 @@
 var xMoves = [];
 var oMoves = []; // store the square id to an array
 var isOver = false; // see whether game is ended
+var size = 3;
 
 $(document).ready(function() {
   var player = "x"; // switch player
@@ -32,7 +33,7 @@ $(document).ready(function() {
         marked.addClass("x").addClass("animated bounceIn"); // place the token "X"
         xMoves.push(this.id); // store the sqaure id to an array
 
-        if (checkDiag(diagArr(3, 1), xMoves) || checkDiag(diagArr(3, 0), xMoves) || checkOther(xMoves)) {
+        if (checkDiag(diagArr(3, 1), xMoves) || checkDiag(diagArr(3, 0), xMoves) || checkOther(xMoves, 3)) {
           $("#message").text("Player X wins!") // if either one of 3 winning conditions meet,
           isOver = true; // game is ended
 
@@ -52,7 +53,7 @@ $(document).ready(function() {
       } else {
         marked.addClass("o").addClass("animated bounceIn");
         oMoves.push(this.id);
-        if (checkDiag(diagArr(3, 1), oMoves) || checkDiag(diagArr(3, 0), oMoves) || checkOther(oMoves)) {
+        if (checkDiag(diagArr(3, 1), oMoves) || checkDiag(diagArr(3, 0), oMoves) || checkOther(oMoves, 3)) {
           $("#message").text("Player O wins!")
           isOver = true;
         } else {
@@ -103,7 +104,7 @@ $(document).ready(function() {
   // seperate row ids and column ids, and check if the player's selected squares have 3
   // same row ids or column ids.
   // to check whether it's winning horizontally or vertically
-  var checkOther = function(playerMoves) { //check horizontally and vertically
+  var checkOther = function(playerMoves, size) { //check horizontally and vertically
     var row = [];
     var col = [];
 
@@ -115,26 +116,42 @@ $(document).ready(function() {
     row.sort();
     col.sort();
 
-    for (var i = 0; i < row.length; i++) {
-      if (row[i] === row[i+1] && row[i] === row[i+2]) {
-        return true;
+    if (size === 3) {
+      for (var i = 0; i < row.length; i++) {
+        if (row[i] === row[i+1] && row[i] === row[i+2]) {
+          return true;
+        }
       }
-    }
 
-    for (var i = 0; i < col.length; i++) {
-      if (col[i] === col[i+1] && col[i] === col[i+2]) {
-        return true;
+      for (var i = 0; i < col.length; i++) {
+        if (col[i] === col[i+1] && col[i] === col[i+2]) {
+          return true;
+        }
       }
-    }
-    return false;
+      return false;
+    } // works for 3x3 grid
+
+    if (size === 4) {
+      for (var i = 0; i < row.length; i++) {
+        if (row[i] === row[i+1] && row[i] === row[i+2] && row[i] === row[i+3]) {
+          return true;
+        }
+      }
+
+      for (var i = 0; i < col.length; i++) {
+        if (col[i] === col[i+1] && col[i] === col[i+2] && col[i] === row[i+3]) {
+          return true;
+        }
+      }
+      return false;
+    } // works for 4x4 grid
+
   };
 
-    $("#grid3").hide();
-      $("#changeGrid").click(function(){
-
-          $("#grid3").slideToggle("fast");
+    $("#grid4").hide();
+      $("#changeSize").click(function(){
           $("#grid4").slideToggle("fast");
-
+          $("#grid3").slideToggle("fast");
       return false;
     });
 

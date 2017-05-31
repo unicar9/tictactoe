@@ -8,37 +8,78 @@ body {
   text-align: center;
 }
 
-header {
-  height: 80px;
+.container {
+  overflow: hidden;
+  /*height: 80px;*/
   background-color: #FFEEDB;
 }
 
-h1 {
-  position: absolute;
-  color: #49074C;
-  float: left;
-  top: 10px
-  font-size: 40px;
-  left: 80px;
-}
-
-header nav {
-  position: absolute;
+.container a {
   float: right;
-  right: 80px;
-}
-
-header nav ul li {
-  float: left;
-  display: inline-block;
-  margin-top: 15px;
-}
-
-header a {
+  font-size: 16px;
+  color: #49074C;
+  text-align: center;
+  padding: 14px 16px;
   text-decoration: none;
-  text-transform: uppercase;
+}
+
+#restart {
+  background-color: #61C9A8;
+}
+
+.dropdown {
+  float: right;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: #49074C;
+  padding: 14px 16px;
+  background-color: inherit;
+}
+
+.container a:hover, .dropdown:hover .dropbtn {
+  background-color: #49074C;
+  color: #FFEEDB;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #FFEEDB;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: #49074C;
+  padding: 12px 16px;
+  text-decoration: none;
   display: block;
-  margin-right: 20px;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #61C9A8;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+h1 {
+  margin-top: 10px;
+  position: absolute;
+  color: #61C9A8;
+  float: left;
+  font-size: 25px;
+  left: 80px;
+  text-transform: uppercase;
 }
 
 table {

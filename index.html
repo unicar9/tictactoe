@@ -16,26 +16,26 @@
 </head>
 <body>
 
-  <header>
-    <h1 class="animated fadeInDown">Unicar's Tic Tac Toe</h1>
-    <nav>
-      <ul>
-        <li><a id="changeGrid" href="#">Change Size</a></li>
-  			<li><a href="#">Portfolio</a></li>
-  			<li><a id="restart" href="#">RESTART</a></li>
-      </ul>
-    </nav>
+  <div class="container animated fadeInDown">
+    <h1>Unicar's Tic Tac Toe</h1>
+    <a id="restart" href="#">RESTART</a>
+    <a id="changeSize" href="#">CHANGE SIZE</a>
+    <div class="dropdown">
+      <button class="dropbtn">TOKENS</button>
+      <div class="dropdown-content">
+        <a id="token1" href="#">X/O</a>
+        <a id="token2" href="#">Nigiri/Onigiri</a>
+      </div>
+    </div>
 
-  </header>
-  <!-- a nav bar with game name and a restart button -->
-  <!-- and drop down list where you can change goard size 3x3 or 4x4, token -->
-
-  <div id="aside" class="animated fadeInLeft">
-    
-    <p id="message">Let's play the game! X first.</p>
   </div>
+  <!-- a nav bar with game name and a restart button, toggle board size -->
+  <!-- and drop down list where you can change token -->
 
-  <table id="grid3" class="animated pulse">
+  <p id="message">Let's play the game! X first.</p>
+
+
+  <table id="grid3" class="animated fadeIn">
       <tr>
           <td id="11" class="bottom right"></td>
           <td id="12" class="bottom right"></td>
@@ -53,7 +53,7 @@
       </tr>
   </table>
 
-  <table id="grid4" class="animated pulse">
+  <table id="grid4" class="animated fadeIn">
       <tr>
           <td id="11" class="bottom right"></td>
           <td id="12" class="bottom right"></td>
