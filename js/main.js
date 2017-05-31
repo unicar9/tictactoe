@@ -3,6 +3,9 @@ var xMoves = [];
 var oMoves = []; // store the square id to an array
 var isOver = false; // see whether game is ended
 var size = 3;
+var turns = 0;
+var token1 = "x";
+var token2 = "o";
 
 $(document).ready(function() {
   var player = "x"; // switch player
@@ -16,6 +19,22 @@ $(document).ready(function() {
 
   }); // START button click event, reset game
 
+  var changeToken = function(t1, t2) {
+    if (turns) {
+      return
+    }
+    token1 = t1;
+    token2 = t2;
+  };
+
+  $("#tokenPair1").on("click", function() {
+    changeToken("x", "o");
+  });
+
+  $("#tokenPair2").on("click", function() {
+    changeToken("nigiri", "onigiri");
+  });
+
   $("td").on("click", function() {
 
     if (isOver) {
@@ -24,14 +43,16 @@ $(document).ready(function() {
 
     var marked = $(this); // get the square that player selects
 
-    if (marked.hasClass("x") || marked.hasClass("o")) {
+    if (marked.hasClass(token1) || marked.hasClass(token2)) {
       // if the square has already been selected then alert else markes the square
       alert("Please choose another square!")
     } else {
-      if (player === "x") {
+      if (turns % 2 === 0) {
         $("#message").text("It's X's turn!") // change the prompt message
-        marked.addClass("x").addClass("animated bounceIn"); // place the token "X"
+        marked.addClass(token1).addClass("animated bounceIn"); // place the token "X"
         xMoves.push(this.id); // store the sqaure id to an array
+
+        turns++;
 
         if (checkDiag(diagArr(3, 1), xMoves) || checkDiag(diagArr(3, 0), xMoves) || checkOther(xMoves, 3)) {
           $("#message").text("Player X wins!") // if either one of 3 winning conditions meet,
@@ -48,11 +69,13 @@ $(document).ready(function() {
           player = "o";
           $("#message").text("It's O's turn!")
           //normally switch to player O and change prompt message
-
         }
       } else {
-        marked.addClass("o").addClass("animated bounceIn");
+        marked.addClass(token2).addClass("animated bounceIn");
         oMoves.push(this.id);
+
+        turns++;
+        
         if (checkDiag(diagArr(3, 1), oMoves) || checkDiag(diagArr(3, 0), oMoves) || checkOther(oMoves, 3)) {
           $("#message").text("Player O wins!")
           isOver = true;
@@ -148,11 +171,15 @@ $(document).ready(function() {
 
   };
 
-    $("#grid4").hide();
-      $("#changeSize").click(function(){
-          $("#grid4").slideToggle("fast");
-          $("#grid3").slideToggle("fast");
-      return false;
-    });
+  $("#grid4").hide();
+    $("#changeSize").click(function(){
+        $("#grid4").slideToggle("fast");
+        $("#grid3").slideToggle("fast");
+    return false;
+  });
+
+
+
+
 
 });

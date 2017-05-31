@@ -116,12 +116,12 @@ td {
 }
 
 .nigiri {
-  background-image: url("/images/nigiri.png");
+  background-image: url("../images/nigiri.png");
   background-size: contain;
 }
 
 .onigiri {
-  background-image: url("/images/onigiri.png");
+  background-image: url("../images/onigiri.png");
   background-size: contain;
 }
 
@@ -131,30 +131,36 @@ td {
   margin-top: 10px;
 }
 
-.button {
-  background-color: #336E7B;
-  border: none;
-  color: #FFEEDB;
-  padding: 13px 32px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  border-radius: 4px;
-  border: 3px solid #49074C;
+.scores {
+  width: 300px;
+  margin: auto;
 }
 
-.button:hover {
-  color: #49074C;
-  background-color: transparent;
-  border: 3px solid #49074C;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-}
-
-#aside {
+#player1 {
   float: left;
-  position: relative;
-  top: 250px;
-  left: 80px;
-  text-align: left;
+  display: inline-block;
 }
+
+#player2 {
+  display: inline-block;
+  float: right;
+}
+
+.scores p {
+  font-size: 20px;
+  color: #61C9A8
+}
+
+.scores .num {
+  position: relative;
+  font-size: 30px;
+  top: -20px;
+}
+
+.selected {
+  background-color: #ADA8B6;
+}
+
+/*.changecolor {
+  color: #FFEEDB;
+}*/
