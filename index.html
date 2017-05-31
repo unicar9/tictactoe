@@ -15,14 +15,27 @@
   <title>Tic Tac Toe</title>
 </head>
 <body>
-  <h1 class="animated fadeInDown">My Tic Tac Toe</h1>
+
+  <header>
+    <h1 class="animated fadeInDown">Unicar's Tic Tac Toe</h1>
+    <nav>
+      <ul>
+        <li><a id="changeGrid" href="#">Change Size</a></li>
+  			<li><a href="#">Portfolio</a></li>
+  			<li><a id="restart" href="#">RESTART</a></li>
+      </ul>
+    </nav>
+
+  </header>
+  <!-- a nav bar with game name and a restart button -->
+  <!-- and drop down list where you can change goard size 3x3 or 4x4, token -->
 
   <div id="aside" class="animated fadeInLeft">
-    <button class="button">START</button>
+    
     <p id="message">Let's play the game! X first.</p>
   </div>
 
-  <table class="animated pulse">
+  <table id="grid3" class="animated pulse">
       <tr>
           <td id="11" class="bottom right"></td>
           <td id="12" class="bottom right"></td>
@@ -39,6 +52,35 @@
           <td id="33"></td>
       </tr>
   </table>
+
+  <table id="grid4" class="animated pulse">
+      <tr>
+          <td id="11" class="bottom right"></td>
+          <td id="12" class="bottom right"></td>
+          <td id="13" class="bottom right"></td>
+          <td id="14" class="bottom"></td>
+      </tr>
+      <tr>
+          <td id="21" class="bottom right" ></td>
+          <td id="22" class="bottom right" ></td>
+          <td id="23" class="bottom right"></td>
+          <td id="24" class="bottom"></td>
+      </tr>
+      <tr>
+          <td id="31" class="bottom right"></td>
+          <td id="32" class="bottom right"></td>
+          <td id="33" class="bottom right"></td>
+          <td id="34" class="bottom"></td>
+      </tr>
+      <tr>
+          <td id="41" class="right"></td>
+          <td id="42" class="right"></td>
+          <td id="43" class="right"></td>
+          <td id="44"></td>
+      </tr>
+  </table>
+
+
 
 </body>
 </html>

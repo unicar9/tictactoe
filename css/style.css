@@ -1,19 +1,44 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway:500');
 
 body {
-  background-color: #81CFE0;
+  margin: 0;
+  padding: 0;
+  background-color: #A53860;
   font-family: 'Raleway', sans-serif;
   text-align: center;
 }
 
+header {
+  height: 80px;
+  background-color: #FFEEDB;
+}
+
 h1 {
-  font-size: 50px;
+  position: absolute;
+  color: #49074C;
+  float: left;
+  top: 10px
+  font-size: 40px;
+  left: 80px;
+}
+
+header nav {
+  position: absolute;
+  float: right;
+  right: 80px;
+}
+
+header nav ul li {
+  float: left;
+  display: inline-block;
+  margin-top: 15px;
+}
+
+header a {
+  text-decoration: none;
   text-transform: uppercase;
-  color: #336E7B;
-  padding: 0;
-  margin: 0 auto;
-  position: relative;
-  top: 50px;
+  display: block;
+  margin-right: 20px;
 }
 
 table {
@@ -30,45 +55,57 @@ td {
 }
 
 .bottom {
-  border-bottom: 6px solid #336E7B;
+  border-bottom: 6px solid #49074C;
 }
 
 .right {
-  border-right: 6px solid #336E7B;
+  border-right: 6px solid #49074C;
 }
+
+/*below are 2 pairs of tokens*/
 
 .x::after {
   content: "x";
-  color: #444;
+  color: #ADA8B6;
 }
 
 .o::after {
   content: "o";
-  color: #FFF;
+  color: #FFEEDB;
+}
+
+.nigiri {
+  background-image: url("/images/nigiri.png");
+  background-size: contain;
+}
+
+.onigiri {
+  background-image: url("/images/onigiri.png");
+  background-size: contain;
 }
 
 #message {
   font-size: 20px;
-  color: #FFF;
+  color: #FFEEDB;
   margin-top: 10px;
 }
 
 .button {
   background-color: #336E7B;
   border: none;
-  color: #FFF;
+  color: #FFEEDB;
   padding: 13px 32px;
   text-align: center;
   text-decoration: none;
   font-size: 16px;
   border-radius: 4px;
-  border: 3px solid #336E7B;
+  border: 3px solid #49074C;
 }
 
 .button:hover {
-  color: #336E7B;
+  color: #49074C;
   background-color: transparent;
-  border: 3px solid #336E7B;
+  border: 3px solid #49074C;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
 }

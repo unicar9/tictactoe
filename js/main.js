@@ -6,9 +6,14 @@ var isOver = false; // see whether game is ended
 $(document).ready(function() {
   var player = "x"; // switch player
 
-  $("button").on("click", function() {
-      location.reload();
-  }); // START button click event, reload page
+  $("#restart").on("click", function() {
+    xMoves = [];
+    oMoves = [];
+    isOver = false;
+    $("td").removeClass("x").removeClass("o");
+    $("#message").text("Let's play the game! X first.")
+
+  }); // START button click event, reset game
 
   $("td").on("click", function() {
 
@@ -123,5 +128,14 @@ $(document).ready(function() {
     }
     return false;
   };
+
+    $("#grid3").hide();
+      $("#changeGrid").click(function(){
+
+          $("#grid3").slideToggle("fast");
+          $("#grid4").slideToggle("fast");
+
+      return false;
+    });
 
 });
