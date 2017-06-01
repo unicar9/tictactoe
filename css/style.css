@@ -8,10 +8,25 @@ body {
   text-align: center;
 }
 
+#toggleAI {
+  position: absolute;
+  top: 55px;
+  left: 15px;
+  font-size: 35px;
+  color: #FFEEDB;
+  opacity: 0.5;
+}
+
+#toggleAI:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
 .container {
   overflow: hidden;
   /*height: 80px;*/
   background-color: #FFEEDB;
+  opacity: 0.5;;
 }
 
 .container a {
@@ -23,7 +38,7 @@ body {
   text-decoration: none;
 }
 
-#restart {
+#newgame {
   background-color: #61C9A8;
 }
 
@@ -148,7 +163,7 @@ td {
 
 .scores p {
   font-size: 20px;
-  color: #61C9A8
+  color: #FFEEDB;
 }
 
 .scores .num {
@@ -159,6 +174,18 @@ td {
 
 .selected {
   background-color: #ADA8B6;
+}
+
+#restart {
+  background-color: #49074C;
+  border: none;
+  color: #FFEEDB;
+  padding: 15px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
 }
 
 /*.changecolor {

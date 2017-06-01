@@ -10,15 +10,22 @@
   src="https://code.jquery.com/jquery-3.2.1.js"
   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
   crossorigin="anonymous"></script>
-  <script src="js/main1.js"></script>
+  <script src="https://use.fontawesome.com/025f58d995.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/mainAI.js"></script>
 
   <title>Tic Tac Toe</title>
 </head>
 <body>
 
+  <div id="toggleAI">
+    <i class="fa fa-user" aria-hidden="true"></i>
+    <i class="fa fa-desktop" aria-hidden="true" style="display: none"></i>
+  </div>
+
   <div class="container animated fadeInDown">
     <h1>Unicar's Tic Tac Toe</h1>
-    <a id="restart" href="#">RESTART</a>
+    <a id="newgame" href="#">NEW GAME</a>
     <a id="changeSize" href="#">CHANGE SIZE</a>
     <div class="dropdown">
       <button class="dropbtn">TOKENS</button>
@@ -32,6 +39,8 @@
   <!-- and drop down list where you can change token -->
 
   <p id="message" class="animated fadeInUp">Let's play the game! X first.</p>
+
+
 
   <table id="grid3" class="animated zoomIn">
       <tr>
@@ -81,13 +90,17 @@
   <div class="scores">
     <div id="player1">
       <p class="name">Player1</p>
+      <p class="name" style="display: none">Player</p>
       <p class="num">0</p>
     </div>
     <div id="player2">
       <p class="name">Player2</p>
+      <p class="name" style="display: none">Computer</p>
       <p class="num">0</p>
     </div>
   </div>
+
+  <button id="restart">RESTART</button>
 
 
 </body>

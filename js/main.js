@@ -1,88 +1,141 @@
 
-var xMoves = [];
-var oMoves = []; // store the square id to an array
+var gameData = {
+  movesP1: [],
+  movesP2: [], // store the square id to an array
+  token1: 'x',
+  token2: 'o',
+  score1: 0,
+  score2: 0
+}; // store game data
+
 var isOver = false; // see whether game is ended
-var size = 3;
+var size = 3; //3x3 grid default
 var turns = 0;
-var token1 = "x";
-var token2 = "o";
+var toggle = true;
 
 $(document).ready(function() {
-  var player = "x"; // switch player
 
-  $("#restart").on("click", function() {
-    xMoves = [];
-    oMoves = [];
+  var restart = function() {
+    gameData.movesP1 = [];
+    gameData.movesP2 = [];
+    turns = 0;
     isOver = false;
-    $("td").removeClass("x").removeClass("o");
+    $("td").removeClass(gameData.token1).removeClass(gameData.token2);
     $("#message").text("Let's play the game! X first.")
-
-  }); // START button click event, reset game
-
-  var changeToken = function(t1, t2) {
-    if (turns) {
-      return
-    }
-    token1 = t1;
-    token2 = t2;
   };
 
+  $("#restart").on("click", function() {
+    restart();
+  }); // START button click event, reset game
+
   $("#tokenPair1").on("click", function() {
-    changeToken("x", "o");
+    if (turns) {
+      return;
+    }
+    gameData.token1 = "x";
+    gameData.token2 = "o";
+    $(this).addClass("selected");
+    $("#tokenPair2").removeClass("selected");
   });
+  // change token to X/O, and change background
+  // color to indicate it's been selected
 
   $("#tokenPair2").on("click", function() {
-    changeToken("nigiri", "onigiri");
-  });
+    if (turns) {
+      return;
+    }
+    gameData.token1 = "nigiri";
+    gameData.token2 = "onigiri";
+    $(this).addClass("selected");
+    $("#tokenPair1").removeClass("selected");
+  }); // change token to nigiri/onigiri
 
+  $("#grid4").hide();
+    $("#changeSize").click(function() {
+      $("#grid4").slideToggle("fast");
+      $("#grid3").slideToggle("fast");
+      restart();
+
+    if (toggle) {
+      size = 4;
+    } else {
+      size = 3;
+    }
+    toggle = !toggle;
+    return false;
+  }); // toggle board size
+
+  // when player clicks squares to play!!!!
   $("td").on("click", function() {
 
     if (isOver) {
       return;
-    } // if game is ended, function ends
+    } // if game is ended, clicks become invalid
+
+    var token1 = gameData.token1;
+    var token2 = gameData.token2;
 
     var marked = $(this); // get the square that player selects
 
     if (marked.hasClass(token1) || marked.hasClass(token2)) {
       // if the square has already been selected then alert else markes the square
       alert("Please choose another square!")
-    } else {
-      if (turns % 2 === 0) {
-        $("#message").text("It's X's turn!") // change the prompt message
-        marked.addClass(token1).addClass("animated bounceIn"); // place the token "X"
-        xMoves.push(this.id); // store the sqaure id to an array
+      return;
+    }
 
-        turns++;
+    // first see which turn
+    if (turns % 2 === 0) {
+      // $("#player1 .name").addClass("changecolor");
+      // $("#player2 .name").removeClass("changecolor");
 
-        if (checkDiag(diagArr(3, 1), xMoves) || checkDiag(diagArr(3, 0), xMoves) || checkOther(xMoves, 3)) {
-          $("#message").text("Player X wins!") // if either one of 3 winning conditions meet,
-          isOver = true; // game is ended
+      $("#message").text("It's X's turn!") // change the prompt message
 
-        } else {
+      marked.addClass(token1).addClass("animated bounceIn"); // place the token "X"
+      gameData.movesP1.push(this.id); // store the sqaure id to an array
 
-          if (xMoves.length === 5) {
-            $("#message").text("It's a draw!")
-            isOver = true;
-            return;
-          } // x reaches the last step (step 5) and not winning, it's a draw
+      turns++; //player2's turn
 
-          player = "o";
-          $("#message").text("It's O's turn!")
-          //normally switch to player O and change prompt message
-        }
+      if ( checkWin(gameData.movesP1, size) ) {
+        $("#message").text("Player X wins!")
+        isOver = true; // game is ended
+        gameData.score1 += 1;
+        $("#player1 .num").text('' + gameData.score1);
+
       } else {
-        marked.addClass(token2).addClass("animated bounceIn");
-        oMoves.push(this.id);
 
-        turns++;
-        
-        if (checkDiag(diagArr(3, 1), oMoves) || checkDiag(diagArr(3, 0), oMoves) || checkOther(oMoves, 3)) {
-          $("#message").text("Player O wins!")
+        if ( turns === size ** 2 ) {
+          $("#message").text("It's a draw!")
           isOver = true;
-        } else {
-          player = "x";
-          $("#message").text("It's X's turn!")
+          return;
+        } // players reach the last turn and not winning, it's a draw
+        // $("#player2 .name").addClass("changecolor");
+        // $("#player1 .name").removeClass("changecolor"); // change color to indicate current player
+        $("#message").text("It's O's turn!")
+        //normally switch to player O and change prompt message
+      }
+
+    } else {
+      $("#message").text("It's O's turn!")
+      marked.addClass(token2).addClass("animated bounceIn");
+      gameData.movesP2.push(this.id);
+
+      turns++;
+
+      if ( checkWin(gameData.movesP2, size) ) {
+        $("#message").text("Player O wins!")
+        isOver = true;
+        gameData.score2 += 1;
+        $("#player2 .num").text('' + gameData.score2);
+
+      } else {
+
+        if ( turns === size ** 2 ) {
+          $("#message").text("It's a draw!")
+          isOver = true;
+          return;
         }
+
+        $("#message").text("It's X's turn!")
       }
     }
 
@@ -162,7 +215,7 @@ $(document).ready(function() {
       }
 
       for (var i = 0; i < col.length; i++) {
-        if (col[i] === col[i+1] && col[i] === col[i+2] && col[i] === row[i+3]) {
+        if (col[i] === col[i+1] && col[i] === col[i+2] && col[i] === col[i+3]) {
           return true;
         }
       }
@@ -171,15 +224,15 @@ $(document).ready(function() {
 
   };
 
-  $("#grid4").hide();
-    $("#changeSize").click(function(){
-        $("#grid4").slideToggle("fast");
-        $("#grid3").slideToggle("fast");
+  var checkWin = function(moves, size) {
+    var diagonal1 = diagArr(size, 0);
+    var diagonal2 = diagArr(size, 1);
+
+    if ( checkDiag(diagonal1, moves) || checkDiag(diagonal2, moves) || checkOther(moves, size) ) {
+      return true;
+    }
     return false;
-  });
+  };
 
 
-
-
-
-});
+}); // the end
