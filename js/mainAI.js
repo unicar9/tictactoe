@@ -1,6 +1,7 @@
 
 var turns = 0;
 var isOver = false;
+var modeAI = false;
 
 var token1 = "x";
 var token2 = "o";
@@ -21,6 +22,8 @@ var c3;
 var arrayId = ["11", "12", "13", "21", "22", "23", "31", "32", "33"];
 
 $(document).ready(function() {
+
+  console.log('u');
 
   var compMove1 = function() {
     boardCheck("x");
@@ -84,7 +87,6 @@ $(document).ready(function() {
   var compMove4 = function() {
     compMove3();
   }; // 4th computer move
-debugger;
 
   var blockOrWin = function(token) {
     var boardX = boardCheck('x');
@@ -131,6 +133,14 @@ debugger;
 
     return [a1, a2, a3, b1, b2, b3, c1, c2, c3];
   };
+
+  $("#toggleAI").click(function() {
+    $(".icon").toggle();
+    $(".name").toggle();
+
+    modeAI = !modeAI;
+
+  });
 
 
 

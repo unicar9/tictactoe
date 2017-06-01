@@ -2,6 +2,7 @@
 var gameData = {
   movesP1: [],
   movesP2: [], // store the square id to an array
+  movesAI: [],
   token1: 'x',
   token2: 'o',
   score1: 0,
@@ -13,11 +14,34 @@ var size = 3; //3x3 grid default
 var turns = 0;
 var toggle = true;
 
+// var turns = 0;
+// var isOver = false;
+var modeAI = false;
+
+// var token1 = "x";
+// var token2 = "o";
+
+var compMoves;
+var boardCheck;
+
+var a1;
+var a2;
+var a3;
+var b1;
+var b2;
+var b3;
+var c1;
+var c2;
+var c3;
+
+var arrayId = ["11", "12", "13", "21", "22", "23", "31", "32", "33"];
+
 $(document).ready(function() {
 
   var restart = function() {
     gameData.movesP1 = [];
     gameData.movesP2 = [];
+    gameData.movesAI = [];
     turns = 0;
     isOver = false;
     $("td").removeClass(gameData.token1).removeClass(gameData.token2);
@@ -51,95 +75,205 @@ $(document).ready(function() {
   }); // change token to nigiri/onigiri
 
   $("#grid4").hide();
-    $("#changeSize").click(function() {
-      $("#grid4").slideToggle("fast");
-      $("#grid3").slideToggle("fast");
-      restart();
+
+  $("#changeSize").click(function() {
+    if (modeAI) {
+      return;
+    }
+    $("#grid4").slideToggle("fast");
+    $("#grid3").slideToggle("fast");
+    restart();
 
     if (toggle) {
       size = 4;
+      $("#toggleAI").hide(); // NO AI opponent for 4x4 grid
     } else {
       size = 3;
+      $("#toggleAI").show();
     }
     toggle = !toggle;
     return false;
   }); // toggle board size
 
-  // when player clicks squares to play!!!!
-  $("td").on("click", function() {
-
-    if (isOver) {
-      return;
-    } // if game is ended, clicks become invalid
-
-    var token1 = gameData.token1;
-    var token2 = gameData.token2;
-
-    var marked = $(this); // get the square that player selects
-
-    if (marked.hasClass(token1) || marked.hasClass(token2)) {
-      // if the square has already been selected then alert else markes the square
-      alert("Please choose another square!")
+  $("#toggleAI").click(function() {
+    if (turns) {
       return;
     }
+    $(".icon").toggle();
+    $(".name").toggle();
 
-    // first see which turn
-    if (turns % 2 === 0) {
-      // $("#player1 .name").addClass("changecolor");
-      // $("#player2 .name").removeClass("changecolor");
+    modeAI = !modeAI;
+  });
 
-      $("#message").text("It's X's turn!") // change the prompt message
+  $("#newgame").on("click", function() {
+    location.reload();
+  });
+    // if (!modeAI) {
+    // when player clicks squares to play!!!!
+    $("td").on("click", function() {
 
-      marked.addClass(token1).addClass("animated bounceIn"); // place the token "X"
-      gameData.movesP1.push(this.id); // store the sqaure id to an array
+      if(modeAI === true){
+        return;
+      }
+      if (isOver) {
+        return;
+      } // if game is ended, clicks become invalid
 
-      turns++; //player2's turn
+      var token1 = gameData.token1;
+      var token2 = gameData.token2;
 
-      if ( checkWin(gameData.movesP1, size) ) {
-        $("#message").text("Player X wins!")
-        isOver = true; // game is ended
-        gameData.score1 += 1;
-        $("#player1 .num").text('' + gameData.score1);
+      var marked = $(this); // get the square that player selects
 
-      } else {
-
-        if ( turns === size ** 2 ) {
-          $("#message").text("It's a draw!")
-          isOver = true;
-          return;
-        } // players reach the last turn and not winning, it's a draw
-        // $("#player2 .name").addClass("changecolor");
-        // $("#player1 .name").removeClass("changecolor"); // change color to indicate current player
-        $("#message").text("It's O's turn!")
-        //normally switch to player O and change prompt message
+      if (marked.hasClass(token1) || marked.hasClass(token2)) {
+        // if the square has already been selected then alert else markes the square
+        alert("Please choose another square!")
+        return;
       }
 
-    } else {
-      $("#message").text("It's O's turn!")
-      marked.addClass(token2).addClass("animated bounceIn");
-      gameData.movesP2.push(this.id);
+      // first see which turn
+      if (turns % 2 === 0) {
+        // $("#player1 .name").addClass("changecolor");
+        // $("#player2 .name").removeClass("changecolor");
 
-      turns++;
+        $("#message").text("It's X's turn!") // change the prompt message
 
-      if ( checkWin(gameData.movesP2, size) ) {
-        $("#message").text("Player O wins!")
-        isOver = true;
-        gameData.score2 += 1;
-        $("#player2 .num").text('' + gameData.score2);
+        marked.addClass(token1).addClass("animated bounceIn"); // place the token "X"
+        gameData.movesP1.push(this.id); // store the sqaure id to an array
 
-      } else {
+        turns++; //player2's turn
 
-        if ( turns === size ** 2 ) {
-          $("#message").text("It's a draw!")
-          isOver = true;
-          return;
+        if ( checkWin(gameData.movesP1, size) ) {
+          $("#message").text("Player X wins!")
+          isOver = true; // game is ended
+          gameData.score1 += 1;
+          $("#player1 .num").text('' + gameData.score1);
+
+        } else {
+
+          if ( turns === size ** 2 ) {
+            $("#message").text("It's a draw!")
+            isOver = true;
+            return;
+          } // players reach the last turn and not winning, it's a draw
+          // $("#player2 .name").addClass("changecolor");
+          // $("#player1 .name").removeClass("changecolor"); // change color to indicate current player
+          $("#message").text("It's O's turn!")
+          //normally switch to player O and change prompt message
         }
 
-        $("#message").text("It's X's turn!")
-      }
-    }
+      } else {
+        $("#message").text("It's O's turn!")
+        marked.addClass(token2).addClass("animated bounceIn");
+        gameData.movesP2.push(this.id);
 
-  });
+        turns++;
+
+        if ( checkWin(gameData.movesP2, size) ) {
+          $("#message").text("Player O wins!")
+          isOver = true;
+          gameData.score2 += 1;
+          $("#player2 .num").text('' + gameData.score2);
+
+        } else {
+
+          if ( turns === size ** 2 ) {
+            $("#message").text("It's a draw!")
+            isOver = true;
+            return;
+          }
+
+          $("#message").text("It's X's turn!")
+        }
+      }
+
+    }); // all the moves ---> not AI mode
+  // } else {
+    // all the moves ---> AI mode
+    $("td").on("click", function() {
+      if (modeAI === false) {
+        return;
+      }
+      if (isOver) {
+        return;
+      } // if game is ended, clicks become invalid
+
+      var token1 = gameData.token1;
+      var token2 = gameData.token2;
+
+      var marked = $(this); // get the square that player selects
+
+      if (marked.hasClass(token1) || marked.hasClass(token2)) {
+        // if the square has already been selected then alert else markes the square
+        alert("Please choose another square!")
+        return;
+      }
+
+      // first see which turn
+      if (turns % 2 === 0) {
+        // $("#player1 .name").addClass("changecolor");
+        // $("#player2 .name").removeClass("changecolor");
+
+        $("#message").text("It's X's turn!") // change the prompt message
+
+        marked.addClass(token1).addClass("animated bounceIn"); // place the token "X"
+        gameData.movesP1.push(this.id); // store the sqaure id to an array
+
+        turns++; //player2's turn
+
+        if ( checkWin(gameData.movesP1, size) ) {
+          $("#message").text("Player X wins!")
+          isOver = true; // game is ended
+          gameData.score1 += 1;
+          $("#player1 .num").text('' + gameData.score1);
+
+        } else {
+
+          if ( turns === size ** 2 ) {
+            $("#message").text("It's a draw!")
+            isOver = true;
+            return;
+          } // players reach the last turn and not winning, it's a draw
+          // $("#player2 .name").addClass("changecolor");
+          // $("#player1 .name").removeClass("changecolor"); // change color to indicate current player
+          $("#message").text("It's O's turn!")
+          //normally switch to player O and change prompt message
+        }
+
+        if (turns === 1) {
+          compMove1();
+        } else if (turns === 3) {
+          compMove2();
+        } else if (turns === 5) {
+          compMove3();
+        } else if (turns === 7) {
+          compMove4();
+        }
+
+        if ( checkWin(gameData.movesAI, size) ) {
+          $("#message").text("Computer wins!")
+          isOver = true;
+          gameData.score2 += 1;
+          $("#player2 .num").text('' + gameData.score2);
+
+        } else {
+
+          if ( turns === size ** 2 ) {
+            $("#message").text("It's a draw!")
+            isOver = true;
+            return;
+          }
+
+          $("#message").text("It's X's turn!")
+        }
+
+
+
+
+    }
+  });// all the moves --->AI mode, function ends
+// }
+
+
 
   // get 2 arrays with all the square ids on the diagonal directions
   // eg. ["11", "22", "33", "44"] and ["14", "23", "32", "41"]
@@ -233,6 +367,143 @@ $(document).ready(function() {
     }
     return false;
   };
+
+  //below is AI logic!!!!!!!
+  //below is AI logic!!!!!!!
+  //below is AI logic!!!!!!!
+
+  var compMove1 = function() {
+    boardCheck("x");
+    if (!b2) {
+      $("#22").addClass("o");
+      gameData.movesAI.push("22");
+      turns++;
+    } else {
+      $("#13").addClass("o");
+      gameData.movesAI.push("13");
+      turns++;
+    }
+  }; // 1st computer move
+
+  var compMove2 = function() {
+    boardCheck("x");
+    if ((a1&&c3) || (a3&&c1)) {
+      $("#23").addClass("o"); // 2 x on diagonal direction, o on the edge;
+      gameData.movesAI.push("23");
+      turns++;
+    } else if ((a2&&c2) || (b1&&b3) || (a2&&c1) || (b1&&a3)) {
+      $("#11").addClass("o"); //
+      gameData.movesAI.push("11");
+      turns++;
+    } else if ((a3&&c2) || (b3&&c1)|| (c1&&b2)) {
+      $("#33").addClass("o");
+      gameData.movesAI.push("33");
+      turns++;
+    } else if ((a1&&c2) || (b1&&c3) || (a2&&b3) || (a2&&b1)) {
+      $("#31").addClass("o");
+      gameData.movesAI.push("31");
+      turns++;
+    } else if ((a1&&b3) || (a2&&c3) || (b1&&c2) || (b3&&c2)) {
+      $("#13").addClass("o");
+      gameData.movesAI.push("13");
+      turns++;
+    } else {
+      var id = blockOrWin("x");
+      $("#"+id).addClass("o");
+      gameData.movesAI.push(id);
+      turns++;
+    }
+  }; // 2nd computer move
+
+
+  var getEmpty = function(){
+    var boardX = boardCheck("x");
+    var boardO = boardCheck("o");
+    var empty = [];
+    for (var i = 0; i < boardX.length; i++) {
+      if( !boardX[i] && !boardO[i] ){
+        return i;
+      }
+    }
+  };
+
+  var compMove3 = function() {
+    var win = blockOrWin("o");
+    var block = blockOrWin("x");
+
+    if (win) {
+      $("#"+win).addClass("o");
+      gameData.movesAI.push(win);
+      turns++;
+    } else if (block) {
+      $("#"+block).addClass("o");
+      gameData.movesAI.push(block);
+      turns++;
+    } else {
+      var i = getEmpty();
+      var id = arrayId[i];
+      $("#"+id).addClass("o");
+      gameData.movesAI.push(id);
+      turns++;
+    }
+
+  }; // 3rd computer move
+
+  var compMove4 = function() {
+    compMove3();
+  }; // 4th computer move
+
+  var blockOrWin = function(token) {
+    var empty = checkEmpty();
+    boardCheck(token);
+    if (!empty[0] && ((a2&&a3) || (b1&&c1) || (b2&&c3))) {
+      return "11";
+    } else if (!empty[1] && ((a1&&a3) || (b2&&c2))) {
+        return "12";
+      } else if (!empty[2] && ((a1&&a2) || (b3&&c3) || (b2&&c1))) {
+          return "13";
+        } else if (!empty[3] && ((a1&&a3) || (b2&&b3))) {
+            return "21";
+          } else if (!empty[5] && ((a3&&c3) || (b1&&b2))) {
+              return "23";
+            } else if (!empty[6] && ((c2&&c3) || (a1&&b1) || (b2&&a3))) {
+                return "31";
+              } else if (!empty[7] && ((a2&&b2) || (c1&&c3))) {
+                  return "32";
+                } else if (!empty[8] && ((c1&&c2) || (a3&&b3) || (a1&&b2))) {
+                    return "33";
+                  } else {
+                    return false;
+                  }
+  }; // blockOrWin function ends
+
+  var boardCheck = function(token) {
+    a1 = $("#11").hasClass(token);
+    a2 = $("#12").hasClass(token);
+    a3 = $("#13").hasClass(token);
+    b1 = $("#21").hasClass(token);
+    b2 = $("#22").hasClass(token);
+    b3 = $("#23").hasClass(token);
+    c1 = $("#31").hasClass(token);
+    c2 = $("#32").hasClass(token);
+    c3 = $("#33").hasClass(token);
+
+    return [a1, a2, a3, b1, b2, b3, c1, c2, c3];
+  };
+
+  var checkEmpty = function() {
+    var boardX = boardCheck("x");
+    var boardO = boardCheck("o");
+    var empty = [];
+
+    for (var i = 0; i < boardX.length; i++) {
+      empty[i] = boardX[i] || boardO[i];
+    }
+    return empty;
+  }
+
+
+
 
 
 }); // the end

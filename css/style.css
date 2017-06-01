@@ -180,13 +180,21 @@ td {
   background-color: #49074C;
   border: none;
   color: #FFEEDB;
-  padding: 15px 25px;
+  padding: 15px 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   border-radius: 4px;
+  position: relative;
+  top: 100px;
 }
+
+#restart:hover {
+  background-color: #FFEEDB;
+  color: #49074C;
+}
+
 
 /*.changecolor {
   color: #FFEEDB;
