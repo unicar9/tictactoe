@@ -26,7 +26,7 @@ body {
   overflow: hidden;
   /*height: 80px;*/
   background-color: #FFEEDB;
-  opacity: 0.5;;
+  opacity: 0.5;
 }
 
 .container a {
@@ -45,6 +45,8 @@ body {
 .dropdown {
   float: right;
   overflow: hidden;
+  /*position: relative;*/
+  z-index: 9999;
 }
 
 .dropdown .dropbtn {
@@ -54,6 +56,8 @@ body {
   color: #49074C;
   padding: 14px 16px;
   background-color: inherit;
+  height: 47px;
+  cursor: pointer;
 }
 
 .container a:hover, .dropdown:hover .dropbtn {
@@ -62,12 +66,15 @@ body {
 }
 
 .dropdown-content {
+  /*visibility: hidden;*/
   display: none;
+  margin: 0;
   position: absolute;
+  /*top: 40px;*/
   background-color: #FFEEDB;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+  z-index: 9999999999;
 }
 
 .dropdown-content a {
@@ -77,6 +84,7 @@ body {
   text-decoration: none;
   display: block;
   text-align: left;
+  z-index: 9999999999;
 }
 
 .dropdown-content a:hover {
@@ -84,7 +92,9 @@ body {
 }
 
 .dropdown:hover .dropdown-content {
+  /*visibility: visible;*/
   display: block;
+  z-index: 100;
 }
 
 h1 {
@@ -139,11 +149,16 @@ td {
   background-image: url("../images/onigiri.png");
   background-size: contain;
 }
+/*
+#killme{
+  z-index: 0 !important;
+}*/
 
 #message {
   font-size: 20px;
   color: #FFEEDB;
   margin-top: 10px;
+  z-index: 0 !important;
 }
 
 .scores {

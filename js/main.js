@@ -13,13 +13,7 @@ var isOver = false; // see whether game is ended
 var size = 3; //3x3 grid default
 var turns = 0;
 var toggle = true;
-
-// var turns = 0;
-// var isOver = false;
-var modeAI = false;
-
-// var token1 = "x";
-// var token2 = "o";
+var modeAI = false; // default AI mode off
 
 var compMoves;
 var boardCheck;
@@ -36,7 +30,13 @@ var c3;
 
 var arrayId = ["11", "12", "13", "21", "22", "23", "31", "32", "33"];
 
+// ===================all the functions below================================
+
 $(document).ready(function() {
+
+  window.setTimeout(function () {
+    $('#message,#grid3,#grid4').removeClass('animated');
+  }, 1000); // remove animation so it won't affect submenu
 
   var restart = function() {
     gameData.movesP1 = [];
@@ -45,7 +45,7 @@ $(document).ready(function() {
     turns = 0;
     isOver = false;
     $("td").removeClass(gameData.token1).removeClass(gameData.token2);
-    $("#message").text("Let's play the game! X first.")
+    $("#message").text("Let's play the game! Player1 first.")
   };
 
   $("#restart").on("click", function() {
@@ -74,8 +74,8 @@ $(document).ready(function() {
     $("#tokenPair1").removeClass("selected");
   }); // change token to nigiri/onigiri
 
+//===================================toggle 3x3 or 4x4 game board============================
   $("#grid4").hide();
-
   $("#changeSize").click(function() {
     if (modeAI) {
       return;
@@ -94,13 +94,17 @@ $(document).ready(function() {
     toggle = !toggle;
     return false;
   }); // toggle board size
-
+//================================toggle AI mode=================================================
   $("#toggleAI").click(function() {
     if (turns) {
       return;
     }
     $(".icon").toggle();
     $(".name").toggle();
+    gameData.score1 = 0;
+    $("#player1 .num").text('' + gameData.score1);
+    gameData.score2 = 0;
+    $("#player2 .num").text('' + gameData.score2);
 
     modeAI = !modeAI;
   });
@@ -187,7 +191,8 @@ $(document).ready(function() {
       }
 
     }); // all the moves ---> not AI mode
-  // } else {
+
+  //==================================AI mode on======================================
     // all the moves ---> AI mode
     $("td").on("click", function() {
       if (modeAI === false) {
@@ -212,8 +217,9 @@ $(document).ready(function() {
       if (turns % 2 === 0) {
         // $("#player1 .name").addClass("changecolor");
         // $("#player2 .name").removeClass("changecolor");
+        debugger;
 
-        $("#message").text("It's X's turn!") // change the prompt message
+        $("#message").text("It's Player's turn!") // change the prompt message
 
         marked.addClass(token1).addClass("animated bounceIn"); // place the token "X"
         gameData.movesP1.push(this.id); // store the sqaure id to an array
@@ -221,7 +227,7 @@ $(document).ready(function() {
         turns++; //player2's turn
 
         if ( checkWin(gameData.movesP1, size) ) {
-          $("#message").text("Player X wins!")
+          $("#message").text("Player wins!")
           isOver = true; // game is ended
           gameData.score1 += 1;
           $("#player1 .num").text('' + gameData.score1);
@@ -235,7 +241,7 @@ $(document).ready(function() {
           } // players reach the last turn and not winning, it's a draw
           // $("#player2 .name").addClass("changecolor");
           // $("#player1 .name").removeClass("changecolor"); // change color to indicate current player
-          $("#message").text("It's O's turn!")
+          $("#message").text("It's Player2's turn!")
           //normally switch to player O and change prompt message
         }
 
@@ -263,17 +269,14 @@ $(document).ready(function() {
             return;
           }
 
-          $("#message").text("It's X's turn!")
+          $("#message").text("It's Player's turn!")
         }
-
-
-
 
     }
   });// all the moves --->AI mode, function ends
 // }
 
-
+//===========================all the check for WIN functions=============================
 
   // get 2 arrays with all the square ids on the diagonal directions
   // eg. ["11", "22", "33", "44"] and ["14", "23", "32", "41"]
@@ -368,48 +371,50 @@ $(document).ready(function() {
     return false;
   };
 
-  //below is AI logic!!!!!!!
-  //below is AI logic!!!!!!!
-  //below is AI logic!!!!!!!
+  //==========================below is AI logic!!!!!!!==================================
+  //==========================below is AI logic!!!!!!!==================================
+  //==========================below is AI logic!!!!!!!==================================
 
   var compMove1 = function() {
-    boardCheck("x");
+
+    boardCheck(gameData.token1);
     if (!b2) {
-      $("#22").addClass("o");
+      $("#22").addClass(gameData.token2).addClass("animated bounceIn");
       gameData.movesAI.push("22");
       turns++;
     } else {
-      $("#13").addClass("o");
+      $("#13").addClass(gameData.token2).addClass("animated bounceIn");
       gameData.movesAI.push("13");
       turns++;
     }
   }; // 1st computer move
 
   var compMove2 = function() {
-    boardCheck("x");
+
+    boardCheck(gameData.token1);
     if ((a1&&c3) || (a3&&c1)) {
-      $("#23").addClass("o"); // 2 x on diagonal direction, o on the edge;
+      $("#23").addClass(gameData.token2).addClass("animated bounceIn"); // 2 x on diagonal direction, o on the edge;
       gameData.movesAI.push("23");
       turns++;
     } else if ((a2&&c2) || (b1&&b3) || (a2&&c1) || (b1&&a3)) {
-      $("#11").addClass("o"); //
+      $("#11").addClass(gameData.token2).addClass("animated bounceIn"); //
       gameData.movesAI.push("11");
       turns++;
     } else if ((a3&&c2) || (b3&&c1)|| (c1&&b2)) {
-      $("#33").addClass("o");
+      $("#33").addClass(gameData.token2).addClass("animated bounceIn");
       gameData.movesAI.push("33");
       turns++;
     } else if ((a1&&c2) || (b1&&c3) || (a2&&b3) || (a2&&b1)) {
-      $("#31").addClass("o");
+      $("#31").addClass(gameData.token2).addClass("animated bounceIn");
       gameData.movesAI.push("31");
       turns++;
     } else if ((a1&&b3) || (a2&&c3) || (b1&&c2) || (b3&&c2)) {
-      $("#13").addClass("o");
+      $("#13").addClass(gameData.token2).addClass("animated bounceIn");
       gameData.movesAI.push("13");
       turns++;
     } else {
-      var id = blockOrWin("x");
-      $("#"+id).addClass("o");
+      var id = blockOrWin(gameData.token1);
+      $("#"+id).addClass(gameData.token2).addClass("animated bounceIn");
       gameData.movesAI.push(id);
       turns++;
     }
@@ -417,8 +422,8 @@ $(document).ready(function() {
 
 
   var getEmpty = function(){
-    var boardX = boardCheck("x");
-    var boardO = boardCheck("o");
+    var boardX = boardCheck(gameData.token1);
+    var boardO = boardCheck(gameData.token2);
     var empty = [];
     for (var i = 0; i < boardX.length; i++) {
       if( !boardX[i] && !boardO[i] ){
@@ -428,21 +433,21 @@ $(document).ready(function() {
   };
 
   var compMove3 = function() {
-    var win = blockOrWin("o");
-    var block = blockOrWin("x");
+    var win = blockOrWin(gameData.token2);
+    var block = blockOrWin(gameData.token1);
 
     if (win) {
-      $("#"+win).addClass("o");
+      $("#"+win).addClass(gameData.token2).addClass("animated bounceIn");
       gameData.movesAI.push(win);
       turns++;
     } else if (block) {
-      $("#"+block).addClass("o");
+      $("#"+block).addClass(gameData.token2).addClass("animated bounceIn");
       gameData.movesAI.push(block);
       turns++;
     } else {
       var i = getEmpty();
       var id = arrayId[i];
-      $("#"+id).addClass("o");
+      $("#"+id).addClass(gameData.token2).addClass("animated bounceIn");
       gameData.movesAI.push(id);
       turns++;
     }
@@ -492,8 +497,8 @@ $(document).ready(function() {
   };
 
   var checkEmpty = function() {
-    var boardX = boardCheck("x");
-    var boardO = boardCheck("o");
+    var boardX = boardCheck(gameData.token1);
+    var boardO = boardCheck(gameData.token2);
     var empty = [];
 
     for (var i = 0; i < boardX.length; i++) {
@@ -501,8 +506,6 @@ $(document).ready(function() {
     }
     return empty;
   }
-
-
 
 
 
