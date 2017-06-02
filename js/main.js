@@ -35,7 +35,7 @@ var arrayId = ["11", "12", "13", "21", "22", "23", "31", "32", "33"];
 $(document).ready(function() {
 
   window.setTimeout(function () {
-    $('#message,#grid3,#grid4').removeClass('animated');
+    $('#message').removeClass('fadeInUp');
   }, 1000); // remove animation so it won't affect submenu
 
   var restart = function() {
@@ -75,7 +75,7 @@ $(document).ready(function() {
   }); // change token to nigiri/onigiri
 
 //===================================toggle 3x3 or 4x4 game board============================
-  $("#grid4").hide();
+  // $("#grid4").hide();
   $("#changeSize").click(function() {
     if (modeAI) {
       return;
