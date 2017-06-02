@@ -147,7 +147,7 @@ $(document).ready(function() {
         turns++; //player2's turn
 
         if ( checkWin(gameData.movesP1, size) ) {
-          $("#message").text("Player X wins!")
+          $("#message").text("Player1 wins!")
           isOver = true; // game is ended
           gameData.score1 += 1;
           $("#player1 .num").text('' + gameData.score1);
@@ -161,19 +161,19 @@ $(document).ready(function() {
           } // players reach the last turn and not winning, it's a draw
           // $("#player2 .name").addClass("changecolor");
           // $("#player1 .name").removeClass("changecolor"); // change color to indicate current player
-          $("#message").text("It's O's turn!")
+          $("#message").text("It's Player2's turn!")
           //normally switch to player O and change prompt message
         }
 
       } else {
-        $("#message").text("It's O's turn!")
+        $("#message").text("It's Players's turn!")
         marked.addClass(token2).addClass("animated bounceIn");
         gameData.movesP2.push(this.id);
 
         turns++;
 
         if ( checkWin(gameData.movesP2, size) ) {
-          $("#message").text("Player O wins!")
+          $("#message").text("Player2 wins!")
           isOver = true;
           gameData.score2 += 1;
           $("#player2 .num").text('' + gameData.score2);
@@ -186,7 +186,7 @@ $(document).ready(function() {
             return;
           }
 
-          $("#message").text("It's X's turn!")
+          $("#message").text("It's Player1's turn!")
         }
       }
 
@@ -361,6 +361,9 @@ $(document).ready(function() {
 
   };
 
+  //=====================================total check to win function===============================
+  //=====================================take size (3 or 4) as an argument===============================
+
   var checkWin = function(moves, size) {
     var diagonal1 = diagArr(size, 0);
     var diagonal2 = diagArr(size, 1);
@@ -388,6 +391,8 @@ $(document).ready(function() {
       turns++;
     }
   }; // 1st computer move
+
+  //=======================Computer's 2nd move===============================================
 
   var compMove2 = function() {
 
@@ -420,7 +425,7 @@ $(document).ready(function() {
     }
   }; // 2nd computer move
 
-
+//===================get an array with true of false to indicate whether it's an empty suqare or not=============
   var getEmpty = function(){
     var boardX = boardCheck(gameData.token1);
     var boardO = boardCheck(gameData.token2);
@@ -431,6 +436,8 @@ $(document).ready(function() {
       }
     }
   };
+
+  //=======================Computer's 3rd move===============================================
 
   var compMove3 = function() {
     var win = blockOrWin(gameData.token2);
@@ -453,10 +460,14 @@ $(document).ready(function() {
     }
 
   }; // 3rd computer move
+//=======================Computer's 4th move===============================================
 
   var compMove4 = function() {
     compMove3();
   }; // 4th computer move
+
+//=======================block: in every possible directions, there are 2 "x"===============================================
+//=======================win: in every possible directions, there are 2 "o"===============================================
 
   var blockOrWin = function(token) {
     var empty = checkEmpty();
@@ -482,6 +493,8 @@ $(document).ready(function() {
                   }
   }; // blockOrWin function ends
 
+  //==================false or true array to check the situation of either "X" or "O"===============================================
+
   var boardCheck = function(token) {
     a1 = $("#11").hasClass(token);
     a2 = $("#12").hasClass(token);
@@ -496,6 +509,7 @@ $(document).ready(function() {
     return [a1, a2, a3, b1, b2, b3, c1, c2, c3];
   };
 
+///================================get the first empty square to fill an AI move===================================
   var checkEmpty = function() {
     var boardX = boardCheck(gameData.token1);
     var boardO = boardCheck(gameData.token2);
