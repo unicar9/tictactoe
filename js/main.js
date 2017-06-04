@@ -17,6 +17,10 @@ var modeAI = false; // default AI mode off
 
 var compMoves;
 var boardCheck;
+var canSave = true;
+if (localStorage === undefined) {
+  canSave = false;
+}
 
 var a1;
 var a2;
@@ -34,6 +38,56 @@ var arrayId = ["11", "12", "13", "21", "22", "23", "31", "32", "33"];
 
 $(document).ready(function() {
 
+  // load game
+  if (canSave) {
+    if(localStorage.gameData !== undefined) {
+      gameData = JSON.parse(localStorage.getItem('gameData'));
+      turns = JSON.parse(localStorage.getItem('turns'));
+      isOver = JSON.parse(localStorage.getItem('isOver'));
+      size = JSON.parse(localStorage.getItem('size'));
+      modeAI = JSON.parse(localStorage.getItem('modeAI'));
+      toggle = JSON.parse(localStorage.getItem('toggle'));
+
+      if(modeAI) {
+        $(".icon").toggle();
+        $(".name").toggle();
+      }
+
+      if(gameData.token1 === 'nigiri') {
+        $("#tokenPair1").removeClass("selected");
+        $("#tokenPair2").addClass("selected");
+      }
+
+      for (var i = 0; i < gameData.movesP1.length; i++) {
+        $("#"+gameData.movesP1[i]).addClass(gameData.token1);
+      }
+
+      for (var i = 0; i < gameData.movesP2.length; i++) {
+        $("#"+gameData.movesP2[i]).addClass(gameData.token2);
+      }
+
+      for (var i = 0; i < gameData.movesAI.length; i++) {
+        $("#"+gameData.movesAI[i]).addClass(gameData.token2);
+      }
+
+      $("#player1 .num").text('' + gameData.score1);
+      $("#player2 .num").text('' + gameData.score2);
+
+
+      $('#message').text('Game continued!');
+    }
+  }
+
+
+  var saveGame = function() {
+    localStorage.setItem('gameData', JSON.stringify(gameData));
+    localStorage.setItem('turns', JSON.stringify(turns));
+    localStorage.setItem('isOver', JSON.stringify(isOver));
+    localStorage.setItem('size', JSON.stringify(size));
+    localStorage.setItem('modeAI', JSON.stringify(modeAI));
+    localStorage.setItem('toggle', JSON.stringify(toggle));
+  };
+
   window.setTimeout(function () {
     $('#message').removeClass('fadeInUp');
   }, 1000); // remove animation so it won't affect submenu
@@ -50,6 +104,7 @@ $(document).ready(function() {
 
   $("#restart").on("click", function() {
     restart();
+    saveGame();
   }); // START button click event, reset game
 
   $("#tokenPair1").on("click", function() {
@@ -60,6 +115,7 @@ $(document).ready(function() {
     gameData.token2 = "o";
     $(this).addClass("selected");
     $("#tokenPair2").removeClass("selected");
+    saveGame();
   });
   // change token to X/O, and change background
   // color to indicate it's been selected
@@ -72,6 +128,7 @@ $(document).ready(function() {
     gameData.token2 = "onigiri";
     $(this).addClass("selected");
     $("#tokenPair1").removeClass("selected");
+    saveGame();
   }); // change token to nigiri/onigiri
 
 //===================================toggle 3x3 or 4x4 game board============================
@@ -92,6 +149,7 @@ $(document).ready(function() {
       $("#toggleAI").show();
     }
     toggle = !toggle;
+    saveGame();
     return false;
   }); // toggle board size
 //================================toggle AI mode=================================================
@@ -107,10 +165,14 @@ $(document).ready(function() {
     $("#player2 .num").text('' + gameData.score2);
 
     modeAI = !modeAI;
+    saveGame();
   });
 
   $("#newgame").on("click", function() {
-    location.reload();
+    gameData.score1 = 0;
+    gameData.score2 = 0;
+    restart();
+    saveGame();
   });
     // if (!modeAI) {
     // when player clicks squares to play!!!!
@@ -139,7 +201,7 @@ $(document).ready(function() {
         // $("#player1 .name").addClass("changecolor");
         // $("#player2 .name").removeClass("changecolor");
 
-        $("#message").text("It's X's turn!") // change the prompt message
+        $("#message").text("It's Player1's turn!"); // change the prompt message
 
         marked.addClass(token1).addClass("animated bounceIn"); // place the token "X"
         gameData.movesP1.push(this.id); // store the sqaure id to an array
@@ -151,17 +213,19 @@ $(document).ready(function() {
           isOver = true; // game is ended
           gameData.score1 += 1;
           $("#player1 .num").text('' + gameData.score1);
+          saveGame();
 
         } else {
 
           if ( turns === size ** 2 ) {
             $("#message").text("It's a draw!")
             isOver = true;
+            saveGame();
             return;
           } // players reach the last turn and not winning, it's a draw
-          // $("#player2 .name").addClass("changecolor");
-          // $("#player1 .name").removeClass("changecolor"); // change color to indicate current player
+
           $("#message").text("It's Player2's turn!")
+          saveGame();
           //normally switch to player O and change prompt message
         }
 
@@ -177,16 +241,19 @@ $(document).ready(function() {
           isOver = true;
           gameData.score2 += 1;
           $("#player2 .num").text('' + gameData.score2);
+          saveGame();
 
         } else {
 
           if ( turns === size ** 2 ) {
             $("#message").text("It's a draw!")
             isOver = true;
+            saveGame();
             return;
           }
 
           $("#message").text("It's Player1's turn!")
+          saveGame();
         }
       }
 
@@ -215,9 +282,6 @@ $(document).ready(function() {
 
       // first see which turn
       if (turns % 2 === 0) {
-        // $("#player1 .name").addClass("changecolor");
-        // $("#player2 .name").removeClass("changecolor");
-        debugger;
 
         $("#message").text("It's Player's turn!") // change the prompt message
 
@@ -231,17 +295,20 @@ $(document).ready(function() {
           isOver = true; // game is ended
           gameData.score1 += 1;
           $("#player1 .num").text('' + gameData.score1);
+          saveGame();
 
         } else {
 
           if ( turns === size ** 2 ) {
             $("#message").text("It's a draw!")
             isOver = true;
+            saveGame();
             return;
           } // players reach the last turn and not winning, it's a draw
           // $("#player2 .name").addClass("changecolor");
           // $("#player1 .name").removeClass("changecolor"); // change color to indicate current player
           $("#message").text("It's Player2's turn!")
+          saveGame();
           //normally switch to player O and change prompt message
         }
 
@@ -260,16 +327,19 @@ $(document).ready(function() {
           isOver = true;
           gameData.score2 += 1;
           $("#player2 .num").text('' + gameData.score2);
+          saveGame();
 
         } else {
 
           if ( turns === size ** 2 ) {
             $("#message").text("It's a draw!")
             isOver = true;
+            saveGame();
             return;
           }
 
           $("#message").text("It's Player's turn!")
+          saveGame();
         }
 
     }
@@ -509,7 +579,7 @@ $(document).ready(function() {
     return [a1, a2, a3, b1, b2, b3, c1, c2, c3];
   };
 
-///================================get the first empty square to fill an AI move===================================
+///==================get the first empty square to fill an AI move===================================
   var checkEmpty = function() {
     var boardX = boardCheck(gameData.token1);
     var boardO = boardCheck(gameData.token2);
@@ -520,7 +590,6 @@ $(document).ready(function() {
     }
     return empty;
   }
-
 
 
 }); // the end
