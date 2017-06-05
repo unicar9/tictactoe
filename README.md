@@ -1,26 +1,38 @@
-# Top Heading
+# Project#0 - Tic Tac Toe
 
-Here is some normal text
+You can play it in [here](https://unicar9.github.io/tictactoe/), Give it a go!
 
-Here is [my list site](http://)
+All comments and suggestions are welcome!
 
-![fill murray](http://fillmurray.com/400/300)
+![screenshot](http://i.imgur.com/r151Hv7.png)
 
-Here is _italic text_.
+## Overview
 
-Here is **bold text**
+As required, I made this simple tic tac toe game as my first individual project. It's built with html, css and javascript/**jQuery**.
 
-## Smaller Heading
 
-### Even smaller Heading
+## Features
 
-- first item
-- second item
+- Players can toggle between **Versus Mode** and **VS Computer Mode** on 3x3 grid
 
-```js
-var bill = "murray";
-```
+- Beat-me-if-you-can AI
+
+- Players can toggle between 3x3 or 4x4 grid
+
+- Players can choose between 2 token pairs
+
+- Support local storage
 
 ___
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+## Acknowledgments
+
+- I used [animate.css](https://github.com/daneden/animate.css) library during the process, it's an easy-to-use library of CSS animations!
+
+- I used [Font Awesome](http://fontawesome.io/) to search for icons.
+
+- I found my color palette for this game on [Coolors](https://coolors.co/).
+
+- I found my cute sushi tokens on [freepik](http://www.freepik.com/).
+
+- I've felt grateful for all the help I got from Luke & Matt and all my classmates along the way in WDI22, [GA](https://generalassemb.ly/).
