@@ -464,6 +464,8 @@ $(document).ready(function() {
 
   //=======================Computer's 2nd move===============================================
 
+
+
   var compMove2 = function() {
 
     boardCheck(gameData.token1);
@@ -548,7 +550,7 @@ $(document).ready(function() {
         return "12";
       } else if (!empty[2] && ((a1&&a2) || (b3&&c3) || (b2&&c1))) {
           return "13";
-        } else if (!empty[3] && ((a1&&a3) || (b2&&b3))) {
+        } else if (!empty[3] && ((a1&&c1) || (b2&&b3))) {
             return "21";
           } else if (!empty[5] && ((a3&&c3) || (b1&&b2))) {
               return "23";
