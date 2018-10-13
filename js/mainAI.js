@@ -23,8 +23,6 @@ var arrayId = ["11", "12", "13", "21", "22", "23", "31", "32", "33"];
 
 $(document).ready(function() {
 
-  console.log('u');
-
   var compMove1 = function() {
     boardCheck("x");
     if (!b2) {
@@ -97,27 +95,27 @@ $(document).ready(function() {
     } else if (!boardX[1] && ((a1&&a3) || (b2&&c2))) {
         $("#12").addClass("o");
         turns++;
-      } else if (!boardX[2] && ((a1&&a2) || (b3&&c3) || (b2&&c1))) {
-          $("#13").addClass("o");
+    } else if (!boardX[2] && ((a1&&a2) || (b3&&c3) || (b2&&c1))) {
+        $("#13").addClass("o");
+        turns++;
+    } else if (!boardX[3] && ((a1&&a3) || (b2&&b3))) {
+        $("#21").addClass("o");
+        turns++;
+    } else if (!boardX[5] && ((a3&&c3) || (b1&&b2))) {
+        $("#23").addClass("o");
+        turns++;
+    } else if (!boardX[6] && ((c2&&c3) || (a1&&b1) || (b2&&a3))) {
+          $("#31").addClass("o");
           turns++;
-        } else if (!boardX[3] && ((a1&&a3) || (b2&&b3))) {
-            $("#21").addClass("o");
-            turns++;
-          } else if (!boardX[5] && ((a3&&c3) || (b1&&b2))) {
-              $("#23").addClass("o");
-              turns++;
-            } else if (!boardX[6] && ((c2&&c3) || (a1&&b1) || (b2&&a3))) {
-                $("#31").addClass("o");
-                turns++;
-              } else if (!boardX[7] && ((a2&&b2) || (c1&&c3))) {
-                  $("#32").addClass("o");
-                  turns++;
-                } else if (!boardX[8] && ((c1&&c2) || (a3&&b3) || (a1&&b2))) {
-                    $("#33").addClass("o");
-                    turns++;
-                  } else {
-                    return false;
-                  }
+    } else if (!boardX[7] && ((a2&&b2) || (c1&&c3))) {
+        $("#32").addClass("o");
+        turns++;
+    } else if (!boardX[8] && ((c1&&c2) || (a3&&b3) || (a1&&b2))) {
+        $("#33").addClass("o");
+        turns++;
+    } else {
+      return false;
+    }
   }; // blockOrWin function ends
 
   var boardCheck = function(token) {
@@ -141,8 +139,5 @@ $(document).ready(function() {
     modeAI = !modeAI;
 
   });
-
-
-
 
 }); //the end
